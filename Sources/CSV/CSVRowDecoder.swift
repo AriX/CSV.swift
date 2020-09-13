@@ -647,7 +647,7 @@ extension _CSVRowDecoder {
     }
 
     fileprivate func unbox(_ value: String, as type: String.Type) throws -> String? {
-        if value.isEmpty { return nil }
+        if value.isEmpty { return "" }
 
         return value
     }

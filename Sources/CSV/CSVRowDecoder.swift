@@ -58,7 +58,7 @@ open class CSVRowDecoder {
     /// The strategy to use for decoding `nil` values.
     public enum NilDecodingStrategy {
         case empty
-        case custom((_ value: String) -> Bool)
+        case custom((_ value: String, _ keyIfKnown: String?) -> Bool)
     }
 
     /// The strategy to use in decoding bools. Defaults to `.default`.
@@ -193,7 +193,7 @@ fileprivate final class CSVKeyedDecodingContainer<K: CodingKey>: KeyedDecodingCo
         case .empty:
             return try self.value(for: key).isEmpty
         case .custom(let customClosure):
-            return customClosure(try self.value(for: key))
+            return customClosure(try self.value(for: key), key.stringValue)
         }
     }
 
@@ -434,7 +434,7 @@ extension _CSVRowDecoder: SingleValueDecodingContainer {
         case .empty:
             return self.value.isEmpty
         case .custom(let customClosure):
-            return customClosure(self.value)
+            return customClosure(self.value, nil)
         }
         
     }
